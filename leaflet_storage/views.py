@@ -8,12 +8,14 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import logout as do_logout
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 from django.core.signing import Signer, BadSignature
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.http import (HttpResponse, HttpResponseForbidden,
                          HttpResponseRedirect, HttpResponsePermanentRedirect)
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
+from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext as _
 from django.views.generic import View
 from django.views.generic import DetailView
@@ -32,6 +34,7 @@ from .forms import (DataLayerForm, UpdateMapPermissionsForm, MapSettingsForm,
                     AnonymousMapPermissionsForm, DEFAULT_LATITUDE,
                     DEFAULT_LONGITUDE, FlatErrorList)
 
+from home.models import *
 User = get_user_model()
 ANONYMOUS_COOKIE_MAX_AGE = 60 * 60 * 24 * 30  # One month
 
@@ -216,6 +219,10 @@ class MapViewGeoJSON(MapView):
 class MapNew(MapDetailMixin, TemplateView):
     template_name = "leaflet_storage/map_detail.html"
 
+    def get_context_data(self, **kwargs):
+        context = super(MapNew, self).get_context_data(**kwargs)
+        return context
+
 
 class MapCreate(FormLessEditMixin, CreateView):
     model = Map
@@ -356,6 +363,12 @@ class MapShortUrl(RedirectView):
             if args:
                 url = "%s?%s" % (url, args)
         return url
+
+    def get_context_data(self, **kwargs):
+        context = super(MapNew, self).get_context_data(**kwargs)
+        context['objForestry'] = QftdForestry.objects.all()
+        return  context
+
 
 
 class MapOldUrl(RedirectView):

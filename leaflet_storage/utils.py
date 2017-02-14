@@ -2,7 +2,7 @@ import gzip
 
 from django.core.urlresolvers import get_resolver
 from django.core.urlresolvers import RegexURLPattern, RegexURLResolver
-from django import template
+
 
 def get_uri_template(urlname, args=None, prefix=""):
     '''
@@ -110,5 +110,7 @@ def gzip_file(from_path, to_path):
         with gzip.open(to_path, 'wb') as f_out:
             f_out.writelines(f_in)
 
+
+from django import template
 
 register = template.Library()

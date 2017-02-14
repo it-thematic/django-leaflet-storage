@@ -299,7 +299,8 @@ class DataLayer(NamedModel):
         return {
             "name": self.name,
             "id": self.pk,
-            "displayOnLoad": self.display_on_load
+            "displayOnLoad": self.display_on_load,
+            "laydescription": self.description
         }
 
     def clone(self, map_inst=None):
