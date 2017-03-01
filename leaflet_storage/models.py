@@ -277,6 +277,7 @@ class DataLayer(NamedModel):
             filename = self.upload_to()
             old_name = self.geojson.name
             new_name = self.geojson.storage.save(filename, self.geojson)
+            self.geojson.close()
             self.geojson.storage.delete(old_name)
             self.geojson.name = new_name
             super(DataLayer, self).save(force_insert, force_update, **kwargs)
