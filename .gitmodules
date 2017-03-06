@@ -1,3 +1,6 @@
 [submodule "leaflet_storage/static/storage"]
 	path = leaflet_storage/static/storage
 	url = https://github.com/it-thematic/Leaflet.Storage.git
+[submodule "leaflet_storage/storage"]
+	path = leaflet_storage/storage
+	url = D:\\projects\\lesfond\\forestmap\\django_leaflet_storage\\leaflet_storage\\static\\storage

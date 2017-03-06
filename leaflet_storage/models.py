@@ -277,6 +277,7 @@ class DataLayer(NamedModel):
             filename = self.upload_to()
             old_name = self.geojson.name
             new_name = self.geojson.storage.save(filename, self.geojson)
+            self.geojson.close()
             self.geojson.storage.delete(old_name)
             self.geojson.name = new_name
             super(DataLayer, self).save(force_insert, force_update, **kwargs)
@@ -299,7 +300,8 @@ class DataLayer(NamedModel):
         return {
             "name": self.name,
             "id": self.pk,
-            "displayOnLoad": self.display_on_load
+            "displayOnLoad": self.display_on_load,
+            "laydescription": self.description
         }
 
     def clone(self, map_inst=None):
