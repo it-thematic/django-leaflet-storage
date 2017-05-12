@@ -252,6 +252,7 @@ class DataLayer(NamedModel):
     Layer to store Features in.
     """
     map = models.ForeignKey(Map)
+    maps = models.ManyToManyField(Map,related_name='DataLayer')
     description = models.TextField(
         blank=True,
         null=True,
