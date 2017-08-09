@@ -281,6 +281,7 @@ class DataLayer(NamedModel):
             self.geojson.close()
             self.geojson.storage.delete(old_name)
             self.geojson.name = new_name
+            self.maps.add(self.map)
             super(DataLayer, self).save(force_insert, force_update, **kwargs)
         self.purge_old_versions()
 
