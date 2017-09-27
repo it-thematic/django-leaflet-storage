@@ -523,7 +523,8 @@ class DataLayerUpdate(FormLessEditMixin, GZipMixin, UpdateView):
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        if self.object.map != self.kwargs['map_inst']:
+        # if self.object.map != self.kwargs['map_inst']:
+        if not (self.kwargs['map_inst'] in self.object.maps.all()):
             return HttpResponseForbidden('Route to nowhere')
         if not self.if_match():
             return HttpResponse(status=412)
