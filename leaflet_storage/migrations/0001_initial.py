@@ -3,10 +3,10 @@ from __future__ import unicode_literals
 
 from django.db import models, migrations
 import django.contrib.gis.db.models.fields
-import django_leaflet_storage.leaflet_storage.models
+import leaflet_storage.models
 import django.db.models.deletion
 from django.conf import settings
-import django_leaflet_storage.leaflet_storage.fields
+import leaflet_storage.fields
 
 
 class Migration(migrations.Migration):
@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=200, verbose_name='name')),
                 ('description', models.TextField(null=True, verbose_name='description', blank=True)),
-                ('geojson', models.FileField(null=True, upload_to=django_leaflet_storage.leaflet_storage.models.upload_to, blank=True)),
+                ('geojson', models.FileField(null=True, upload_to=leaflet_storage.models.upload_to, blank=True)),
                 ('display_on_load', models.BooleanField(default=False, help_text='Display this layer on load.', verbose_name='display on load')),
             ],
             options={
@@ -55,9 +55,9 @@ class Migration(migrations.Migration):
                 ('modified_at', models.DateTimeField(auto_now=True)),
                 ('edit_status', models.SmallIntegerField(default=3, verbose_name='edit status', choices=[(1, 'Everyone can edit'), (2, 'Only editors can edit'), (3, 'Only owner can edit')])),
                 ('share_status', models.SmallIntegerField(default=1, verbose_name='share status', choices=[(1, 'everyone (public)'), (2, 'anyone with link'), (3, 'editors only')])),
-                ('settings', django_leaflet_storage.leaflet_storage.fields.DictField(null=True, verbose_name='settings', blank=True)),
+                ('settings', leaflet_storage.fields.DictField(null=True, verbose_name='settings', blank=True)),
                 ('editors', models.ManyToManyField(to=settings.AUTH_USER_MODEL, verbose_name='editors', blank=True)),
-                ('licence', models.ForeignKey(on_delete=django.db.models.deletion.SET_DEFAULT, default=django_leaflet_storage.leaflet_storage.models.get_default_licence, verbose_name='licence', to='leaflet_storage.Licence', help_text='Choose the map licence.')),
+                ('licence', models.ForeignKey(on_delete=django.db.models.deletion.SET_DEFAULT, default=leaflet_storage.models.get_default_licence, verbose_name='licence', to='leaflet_storage.Licence', help_text='Choose the map licence.')),
                 ('owner', models.ForeignKey(related_name='owned_maps', verbose_name='owner', blank=True, to=settings.AUTH_USER_MODEL, null=True)),
             ],
             options={

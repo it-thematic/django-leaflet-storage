@@ -20,9 +20,7 @@
 <script src="{{ STATIC_URL }}storage/reqs/measurable/Leaflet.Measurable.js"></script>
 <script src="{{ STATIC_URL }}storage/reqs/togpx/togpx.js"></script>
 <script src="{{ STATIC_URL }}storage/reqs/tokml/tokml.js"></script>
-<script src="{{ STATIC_URL }}storage/reqs/wfst/Leaflet-WFST.src.js"></script>
-<script src="{{ STATIC_URL }}storage/reqs/mapbox-gl/mapbox-gl.js"></script>
-<script src="{{ STATIC_URL }}storage/reqs/mapbox-gl-leaflet/leaflet-mapbox-gl.js"></script>
+<script src="{{ STATIC_URL }}storage/reqs/wfst/leaflet-wfst.src.js"></script>
 {#<script src="{{ STATIC_URL }}storage/reqs/spin/spin.js"></script>#}
 {% if locale %}
     <script src="{{ STATIC_URL }}storage/src/locale/{{ locale }}.js"></script>
@@ -39,10 +37,16 @@
 <script src="{{ STATIC_URL }}storage/src/js/leaflet.storage.tableeditor.js"></script>
 <script src="{{ STATIC_URL }}storage/src/js/leaflet.storage.js"></script>
 <script src="{{ STATIC_URL }}storage/contrib/js/storage.ui.default.js"></script>
+<!-- Миксины к основному проекту -->
 <script src="{{ STATIC_URL }}storage/src/js/leaflet.storage.mixin.js"></script>
 <script src="{{ STATIC_URL }}storage/src/js/leaflet.storage.controls.mixin.js"></script>
 <script src="{{ STATIC_URL }}storage/src/js/leaflet.storage.layer.mixin.js"></script>
 <script src="{{ STATIC_URL }}storage/src/js/leaflet.storage.forms.mixin.js"></script>
-<script src="{{ STATIC_URL }}storage/src/js/leaflet.storage.layer.wfst.js"></script>
 <script src="{{ STATIC_URL }}storage/src/js/leaflet.storage.features.mixin.js"></script>
 <script src="{{ STATIC_URL }}storage/src/js/leaflet.storage.layer.vector.js"></script>
+<script src="{{ STATIC_URL }}storage/src/js/leaflet.storage.layer.mapbox.js"></script>
+<!-- Дополнительные файлы для векторных тайлов -->
+<script src="{{ STATIC_URL }}storage/reqs/mapbox-gl/mapbox-gl.js"></script>
+<script src="{{ STATIC_URL }}storage/reqs/mapbox-gl-leaflet/leaflet-mapbox-gl.js"></script>
+
+<!-- ********* -->

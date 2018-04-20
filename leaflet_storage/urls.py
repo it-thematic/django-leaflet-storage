@@ -9,10 +9,10 @@ from .decorators import jsonize_view, map_permissions_check,\
 from .utils import decorated_patterns
 
 urlpatterns = [
-    # url(r'^login/$', jsonize_view(login), name='login'),  # noqa
-    # url(r'^login/popup/end/$', views.LoginPopupEnd.as_view(),
-    #     name='login_popup_end'),
-    # url(r'^logout/$', views.logout, name='logout'),
+    url(r'^login/$', jsonize_view(login), name='login'),  # noqa
+    url(r'^login/popup/end/$', views.LoginPopupEnd.as_view(),
+        name='login_popup_end'),
+    url(r'^logout/$', views.logout, name='logout'),
     url(r'^map/(?P<pk>\d+)/geojson/$', views.MapViewGeoJSON.as_view(),
         name='map_geojson'),
     url(r'^map/(?P<username>[-_\w]+)/(?P<slug>[-_\w]+)/$',

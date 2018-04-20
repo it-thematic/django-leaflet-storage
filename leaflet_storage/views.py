@@ -34,7 +34,6 @@ from .forms import (DataLayerForm, UpdateMapPermissionsForm, MapSettingsForm,
                     AnonymousMapPermissionsForm, DEFAULT_LATITUDE,
                     DEFAULT_LONGITUDE, FlatErrorList)
 
-from home.models import *
 User = get_user_model()
 ANONYMOUS_COOKIE_MAX_AGE = 60 * 60 * 24 * 30  # One month
 
