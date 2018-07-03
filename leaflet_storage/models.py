@@ -102,6 +102,19 @@ class TileLayer(NamedModel):
         ordering = ('rank', 'name', )
 
 
+class CategoryMap(models.Model):
+    """
+    A map category  is the substations or ....
+    """
+    name = models.CharField(max_length=255, verbose_name='наименование типа карты')
+
+    class Meta:
+        verbose_name = 'Тип карты'
+
+    def __str__(self):
+        return self.name
+
+
 class Map(NamedModel):
     """
     A single thematical map.
@@ -141,7 +154,7 @@ class Map(NamedModel):
     edit_status = models.SmallIntegerField(choices=EDIT_STATUS, default=OWNER, verbose_name=_("edit status"))
     share_status = models.SmallIntegerField(choices=SHARE_STATUS, default=PUBLIC, verbose_name=_("share status"))
     settings = DictField(blank=True, null=True, verbose_name=_("settings"))
-
+    category = models.ForeignKey(CategoryMap, blank=True, null=True, verbose_name='категория  карты')
     objects = models.GeoManager()
     public = PublicManager()
 

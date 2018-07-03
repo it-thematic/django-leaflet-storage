@@ -1,5 +1,5 @@
 from django.contrib.gis import admin
-from .models import Map, DataLayer, Pictogram, TileLayer, Licence
+from .models import Map, DataLayer, Pictogram, TileLayer, Licence, CategoryMap
 
 
 class TileLayerAdmin(admin.ModelAdmin):
@@ -11,3 +11,4 @@ admin.site.register(DataLayer)
 admin.site.register(Pictogram)
 admin.site.register(TileLayer, TileLayerAdmin)
 admin.site.register(Licence)
+admin.site.register(CategoryMap)
