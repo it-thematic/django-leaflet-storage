@@ -4,14 +4,10 @@
         var MAP = new L.Storage.Map("map", {{ map_settings|notag|safe }});
 
 
-         var popup = L.popup()
-            .setLatLng(latlng)
-            .setContent('<p>Hello world!<br />This is a nice popup.</p>')
-            .openOn(map);
         {#var popup = L.popup();#}
         {#var lsel = L.polygon([]).addTo(MAP);#}
         {#lsel.bindPopup(popup);#}
-
+       var popup = L.popup()
 
         MAP.on('click', function(e) {
              $.ajax({
@@ -20,10 +16,9 @@
                 success: function(data, textStatus, jqXHR){
                     var ct = jqXHR.getResponseHeader("content-type");
                      if (ct.indexOf('json') > -1) {
-                            alert(data.info);
-                            showinfo(data, true)
+                            showinfo(data, e, true)
                         } else {
-                            showinfo(JSON.parse(data), true)
+                            showinfo(JSON.parse(data),e, true)
                         }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
@@ -32,12 +27,13 @@
             });
         });
 
-        function showinfo(jsondata, showPopup) {
+        function showinfo(jsondata, e, showPopup) {
             if (!jsondata || !jsondata.geometry) { return; }
-            lsel.setLatLngs(L.GeoJSON.coordsToLatLngs(jsondata.geometry.coordinates, jsondata.geometry.type === 'Polygon' ? 1 : 2));
             if (showPopup && jsondata.info && jsondata.info!='-'){
-                lsel.bindPopup(popup);
-                lsel.setPopupContent('asd');
+                  popup.setLatLng(e.latlng)
+                                .setContent(jsondata.info)
+                                .openOn(MAP);
+                            {#alert(data.info);#}
                 {#lsel.openPopup(lsel.getCenter());#}
             }
             {#MAP.flyTo(lsel.getCenter());#}
