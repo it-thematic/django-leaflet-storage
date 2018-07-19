@@ -20,7 +20,7 @@
                на сервер передаем  название  приложения и  название модели
 
              /*********************************************/
-             params = 'lat='.latlng.lat + "&lng=" + e.latlng.lng;
+             params = e.latlng.lat + "&lng=" + e.latlng.lng;
              visiblelayer = [];
              label = model = '';
              len_datalayer = e.sourceTarget.datalayers_index.length;
@@ -40,7 +40,7 @@
 
 
              $.ajax({
-                url: "./api/v1/api_identify?" + params + "&f=json",
+                url: "./api/v1/api_identify?lat=" + params + "&f=json",
                 type: "GET",
                 success: function(data, textStatus, jqXHR){
                     var ct = jqXHR.getResponseHeader("content-type");
