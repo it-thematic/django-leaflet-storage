@@ -3,6 +3,9 @@
 import os
 import time
 
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
+
 from django.contrib.gis.db import models
 from django.conf import settings
 from django.core.urlresolvers import reverse
@@ -281,6 +284,10 @@ class DataLayer(NamedModel):
     )
     rank = models.SmallIntegerField(default=0)
 
+    content_type = models.ForeignKey(ContentType, null=True, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField(null=True)
+    content_object = GenericForeignKey('content_type', 'object_id')
+
     class Meta:
         ordering = ('rank',)
 
@@ -314,11 +321,14 @@ class DataLayer(NamedModel):
 
     @property
     def metadata(self):
+        obj =  ContentType.objects.get(app_label=self.content_type.app_label, model=self.content_type.model)
         return {
             "name": self.name,
             "id": self.pk,
             "displayOnLoad": self.display_on_load,
-            "laydescription": self.description
+            "laydescription": self.description,
+            "label": self.content_type.app_label,
+            'object': self.content_type.model
         }
 
     def clone(self, map_inst=None):
