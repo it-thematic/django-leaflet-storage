@@ -11,31 +11,20 @@
         MAP.on('click', function(e) {
              /*********************************************
                TODO: пока  так ))
-               Если включено несколько слоев,  и выбран объект на  котором находится  еще один)
-               пока  берм  просто первого (случай  обозначение подстанции а на ней  обозначение объекта)
-
-               с множественной передачей надо  подумать,  (так как на  сервере еще  делвать запрос  детальнеой
-               информации об объекте - а связи в таблицах разные )
-
-               на сервер передаем  название  приложения и  название модели
 
              /*********************************************/
              params = e.latlng.lat + "&lng=" + e.latlng.lng;
-             visiblelayer = [];
-             label = model = '';
+             visiblelayer = '';
              len_datalayer = e.sourceTarget.datalayers_index.length;
              datalayer= e.sourceTarget.datalayers_index;
 
              for (i= 0 ; i < len_datalayer; i++ ){
                   if (datalayer[i].isVisible() == true){
-                      visiblelayer.push(e.sourceTarget.options.datalayers[i])
+                      visiblelayer = visiblelayer + datalayer[i].storage_id +',';
                   }
              }
-             {#len_visible = visiblelayer.length;#}
-             {#for (i = 0; i< len_visible; i++){#}
-             {#    model = model + visiblelayer[i].label +','+ visiblelayer[i].object + ';'#}
-             if (visiblelayer.length > 0){
-                 params = params + "&lb=" + visiblelayer[0].label+ '&md='+visiblelayer[0].object;
+             if (visiblelayer !== ''){
+                 params = params + "&lb=" + visiblelayer;
              }
 
 
