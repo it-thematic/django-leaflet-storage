@@ -321,14 +321,11 @@ class DataLayer(NamedModel):
 
     @property
     def metadata(self):
-        obj =  ContentType.objects.get(app_label=self.content_type.app_label, model=self.content_type.model)
         return {
             "name": self.name,
             "id": self.pk,
             "displayOnLoad": self.display_on_load,
             "laydescription": self.description,
-            "label": self.content_type.app_label,
-            'object': self.content_type.model
         }
 
     def clone(self, map_inst=None):
