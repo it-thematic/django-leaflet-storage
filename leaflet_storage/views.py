@@ -194,7 +194,7 @@ class MapView(MapDetailMixin, DetailView):
         return shortUrl
 
     def get_geojson(self):
-        map_settings = self.object.settings
+        map_settings = json.loads(self.object.settings)
         if "properties" not in map_settings:
             map_settings['properties'] = {}
         if self.object.owner and hasattr(settings, 'USER_MAPS_URL'):
