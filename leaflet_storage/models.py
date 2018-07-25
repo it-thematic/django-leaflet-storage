@@ -156,7 +156,7 @@ class Map(NamedModel):
     editors = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, verbose_name=_("editors"))
     edit_status = models.SmallIntegerField(choices=EDIT_STATUS, default=OWNER, verbose_name=_("edit status"))
     share_status = models.SmallIntegerField(choices=SHARE_STATUS, default=PUBLIC, verbose_name=_("share status"))
-    settings = DictField(blank=True, null=True, verbose_name=_("settings"))
+    settings = models.TextField(blank=True, null=True, verbose_name=_("settings"))
     category = models.ForeignKey(CategoryMap, blank=True, null=True, verbose_name='категория  карты')
     objects = models.GeoManager()
     public = PublicManager()
