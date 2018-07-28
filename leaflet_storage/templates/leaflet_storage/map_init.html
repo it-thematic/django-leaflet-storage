@@ -13,7 +13,7 @@
                TODO: пока  так ))
 
              /*********************************************/
-             params = e.latlng.lat + "&lng=" + e.latlng.lng;
+             params = e.latlng.lat + "," + e.latlng.lng;
              visiblelayer = '';
              len_datalayer = e.sourceTarget.datalayers_index.length;
              datalayer= e.sourceTarget.datalayers_index;
@@ -29,7 +29,7 @@
 
 
              $.ajax({
-                url: "./map-services/info-desk/findByPoint?lat=" + params + "&f=json",
+                url: "/api/v1/map-services/info-desk/findByPoint/?latlng=" + params + "&f=json",
                 type: "GET",
                 success: function(data, textStatus, jqXHR){
                     var ct = jqXHR.getResponseHeader("content-type");
