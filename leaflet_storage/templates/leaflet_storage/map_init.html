@@ -29,7 +29,7 @@
 
 
              $.ajax({
-                url: "map-services/info-desk/findByPoint?lat=" + params + "&f=json",
+                url: "./map-services/info-desk/findByPoint?lat=" + params + "&f=json",
                 type: "GET",
                 success: function(data, textStatus, jqXHR){
                     var ct = jqXHR.getResponseHeader("content-type");
