@@ -46,10 +46,10 @@
         });
 
         function showinfo(jsondata, e, showPopup) {
-            if (!jsondata || !jsondata.geometry) { return; }
-            if (showPopup && jsondata.info && jsondata.info!='-'){
+            if (!jsondata || !jsondata.geometry.coordinates) { return; }
+            if (showPopup && jsondata.properties.info && jsondata.properties.info!='-'){
                   popup.setLatLng(e.latlng)
-                                .setContent(jsondata.info)
+                                .setContent(jsondata.properties.info)
                                 .openOn(MAP);
             }
          };
