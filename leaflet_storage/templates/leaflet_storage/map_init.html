@@ -27,9 +27,14 @@
                  params = params + "&layers=" + visiblelayer;
              }
 
+             historyParamTime = localStorage.getItem('history-time');
+             paramHistoryTime = '';
+             if ((historyParamTime !== null) && (historyParamTime !== ' ') && (historyParamTime !== 'undefined')){
+                 paramHistoryTime = "&utctime="+historyParamTime;
+             }
 
              $.ajax({
-                url: "/api/v1/map-services/info-desk/findByPoint/?latlng=" + params + "&f=json",
+                url: "/api/v1/map-services/info-desk/findByPoint/?latlng=" + params +paramHistoryTime + "&f=json",
                 type: "GET",
                 success: function(data, textStatus, jqXHR){
                     var ct = jqXHR.getResponseHeader("content-type");
