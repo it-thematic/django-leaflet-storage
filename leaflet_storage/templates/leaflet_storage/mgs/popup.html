@@ -1,0 +1,16 @@
+<div class="mgs-modal">
+    <div class="mgs-modal-content">
+        <span class="mgs-close-button" >×</span>
+        <div class="mgs-content">
+        {#   this  is  content   #}
+        </div>
+    </div>
+</div>
+<script>
+    function mgs_popup_close() {
+        var  mgs_close = document.querySelector('.mgs-show-modal');
+        mgs_close.className = 'mgs-modal';
+    }
+    var closeButton = document.querySelector(".mgs-close-button");
+    closeButton.addEventListener("click", mgs_popup_close);
+</script>

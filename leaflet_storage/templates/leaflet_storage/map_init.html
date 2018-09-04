@@ -1,5 +1,9 @@
 {% load leaflet_storage_tags %}
     <div id="map"></div>
+   {#  insert template popup modal  #}
+   {% include 'leaflet_storage/mgs/popup.html' %}
+
+    {#  get detail info the object   #}
     <script type="text/javascript">
         var MAP = new L.Storage.Map("map", {{ map_settings|notag|safe }});
         var popup = L.popup();
