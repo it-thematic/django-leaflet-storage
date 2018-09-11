@@ -102,6 +102,7 @@ class MapDetailMixin(object):
             'urls': _urls_for_js(),
             'tilelayers': self.get_tilelayers(),
             'allowEdit': self.is_edit_allowed(),
+            'isAuth': self.request.user.is_authenticated(),
             'default_iconUrl': "%sstorage/src/img/marker.png" % settings.STATIC_URL,  # noqa
             'storage_id': self.get_storage_id(),
             'licences': dict((l.name, l.json) for l in Licence.objects.all()),
