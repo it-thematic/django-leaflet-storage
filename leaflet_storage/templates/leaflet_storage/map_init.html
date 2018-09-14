@@ -38,7 +38,7 @@
              }
 
              $.ajax({
-                url: "/api/v1/map-services/info-desk/findByPoint/?latlng=" + params +paramHistoryTime + "&f=json",
+                url: "/api/v2/map-services/info-desk/findByPoint/?latlng=" + params +paramHistoryTime + "&f=json",
                 type: "GET",
                 success: function(data, textStatus, jqXHR){
                     var ct = jqXHR.getResponseHeader("content-type");
