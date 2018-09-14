@@ -4,6 +4,7 @@
         <div class="mgs-content">
         {#   this  is  content   #}
         </div>
+         <button class="btn btn-danger cancel" type="button">Отмена</button>
     </div>
 </div>
 <script>
@@ -13,4 +14,6 @@
     }
     var closeButton = document.querySelector(".mgs-close-button");
     closeButton.addEventListener("click", mgs_popup_close);
+    var cancelButton = document.querySelector(".btn.btn-danger.cancel");
+    cancelButton.addEventListener("click", mgs_popup_close);
 </script>
