@@ -4,41 +4,54 @@
    {% include 'leaflet_storage/mgs/popup.html' %}
 
     {#  get detail info the object   #}
-    <script type="text/javascript">
-        var MAP = new L.Storage.Map("map", {{ map_settings|notag|safe }});
-        var popup = L.popup();
 
+    <script type="text/javascript">
         /*********************************************
          *  ДЕТАЛИЗАЦИЯ  ОБЪЕКТА НА  КАРТЕ
-         ********************************************/
+        ********************************************/
+        var MAP = new L.Storage.Map("map", {{ map_settings|notag|safe }});
+        var popup = L.popup();
+        var scale = L.control.scale();
 
-        MAP.on('click', function(e) {
-             /*********************************************
-               TODO: пока  так ))
+        function showinfo(jsondata, e, showPopup) {
+            {# show popup the information  object #}
 
-             /*********************************************/
-             params = e.latlng.lat + "," + e.latlng.lng;
-             visiblelayer = '';
-             len_datalayer = e.sourceTarget.datalayers_index.length;
-             datalayer= e.sourceTarget.datalayers_index;
+            if (!jsondata || !jsondata.geometry.coordinates) { return; }
+            if (showPopup && jsondata.properties.info && jsondata.properties.info!='-'){
+                  popup.setLatLng(e.latlng)
+                                .setContent(jsondata.properties.info)
+                                .openOn(MAP);
+            }
+        }
 
-             for (i= 0 ; i < len_datalayer; i++ ){
+        function infoDeskXY(e){
+             {# get inforamtion of object  by xy #}
+
+             let params = e.latlng.lat + "," + e.latlng.lng;
+             let visiblelayer = '';
+             let len_datalayer = e.sourceTarget.datalayers_index.length;
+             let datalayer= e.sourceTarget.datalayers_index;
+
+             for (let i= 0 ; i < len_datalayer; i++ ){
                   if (datalayer[i].isVisible() == true){
                       visiblelayer = visiblelayer + datalayer[i].storage_id +',';
                   }
              }
-             if (visiblelayer !== ''){
+             if (visiblelayer){
                  params = params + "&layers=" + visiblelayer;
              }
 
-             historyParamTime = localStorage.getItem('history-time');
-             paramHistoryTime = '';
-             if ((historyParamTime !== null) && (historyParamTime !== ' ') && (historyParamTime !== 'undefined')){
-                 paramHistoryTime = "&utctime="+historyParamTime;
+             let historyParamTime = localStorage.getItem('history-time');
+             let paramHistoryTime = '';
+             if (historyParamTime) {
+                 paramHistoryTime = "&utctime=" + historyParamTime;
              }
+             let  metres = scale._getRoundNum(MAP.containerPointToLatLng([0, MAP.getSize().y / 2 ])
+                                .distanceTo( MAP.containerPointToLatLng([scale.options.maxWidth / 8 ,MAP.getSize().y / 2 ])));
+             let paramDistance = "&distance="+metres;
 
              $.ajax({
-                url: "/api/v2/map-services/info-desk/findByPoint/?latlng=" + params +paramHistoryTime + "&f=json",
+                url: "/api/v2/map-services/info-desk/findByPoint/?latlng=" + params +paramHistoryTime + paramDistance + "&f=json",
                 type: "GET",
                 success: function(data, textStatus, jqXHR){
                     var ct = jqXHR.getResponseHeader("content-type");
@@ -52,16 +65,12 @@
                     console.log([textStatus, errorThrown])
                 }
             });
+        }
+
+        MAP.on('click', function(e) {
+            infoDeskXY(e)
         });
 
-        function showinfo(jsondata, e, showPopup) {
-            if (!jsondata || !jsondata.geometry.coordinates) { return; }
-            if (showPopup && jsondata.properties.info && jsondata.properties.info!='-'){
-                  popup.setLatLng(e.latlng)
-                                .setContent(jsondata.properties.info)
-                                .openOn(MAP);
-            }
-         }
 
     </script>
 
