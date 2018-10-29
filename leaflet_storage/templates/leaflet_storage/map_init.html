@@ -55,11 +55,13 @@
                 type: "GET",
                 success: function(data, textStatus, jqXHR){
                     if (!data) { return; }
+                    console.log(data);
                     var ct = jqXHR.getResponseHeader("content-type");
                     if (ct.indexOf('json') > -1) {
-                        showinfo(data, e, true)
+                        showinfo(data, e, true);
+                        getBuffer(data);
                     } else {
-                        showinfo(JSON.parse(data),e, true)
+                        showinfo(JSON.parse(data),e, true);
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
@@ -71,6 +73,56 @@
         MAP.on('click', function(e) {
             infoDeskXY(e)
         }, MAP);
+
+        /*********************************************
+         *  ОТОБРАЖЕНИЕ БУФЕРНОЙ ЗОНЫ
+        ********************************************/
+        var LAYER_BUFFER = null;
+
+        var VOLTAGE2BUFFER = {
+            6: 5,
+            10: 10,
+            20: 20,
+            35: 50,
+            110: 100,
+            220: 100
+        };
+
+        // Функция получения буферной зоны по напряжению объекта
+        function volatageToBuffer(voltage) {
+            if (voltage <= VOLTAGE2BUFFER["6"]) { return 10; }
+            if (voltage >= VOLTAGE2BUFFER["220"]) { return 100; }
+            if (VOLTAGE2BUFFER.hasOwnProperty(voltage)) { return VOLTAGE2BUFFER[voltage]; } else { return 10; }
+        }
+
+        // фукнция запроса и отображения буферной зоны
+        function requestBuffer(id, type, buffer) {
+            var url = L.Util.template(window.location.origin + '/api/v2/map-services/geo-provider/buffers/?id={id}&type={type}&buffer={buffer}', {
+                id: id,
+                type: type,
+                buffer: buffer
+            });
+            $.ajax({
+                url: url,
+                type: "GET",
+                success: function(data, textStatus, jqXHR){
+                    if (!data) { return; }
+                    if (!!LAYER_BUFFER) {
+                        MAP.removeLayer(LAYER_BUFFER);
+                    }
+                    LAYER_BUFFER = L.GeoJSON.geometryToLayer(data);
+                    LAYER_BUFFER.addTo(MAP);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log([textStatus, errorThrown])
+                }
+            });
+        }
+
+        // Функция запроса буферной зоны
+        function getBuffer(obj) {
+            requestBuffer(obj.id, obj.properties.mgs_type, volatageToBuffer(obj.properties.voltage));
+        }
 
 
     </script>
