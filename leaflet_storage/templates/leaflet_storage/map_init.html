@@ -1,4 +1,6 @@
-{% load leaflet_storage_tags %}
+   {% load leaflet_storage_tags %}
+   {% load staticfiles %}
+
     <div id="map"></div>
    {#  insert template popup modal  #}
    {% include 'leaflet_storage/mgs/popup.html' %}
@@ -74,3 +76,4 @@
 
     </script>
 
+    <script type="text/javascript" src="{% static 'mgs_info_desk/info-desk.js' %}"></script>
