@@ -54,12 +54,13 @@
                 url: "/api/v2/map-services/info-desk/findByPoint/?latlng=" + params +paramHistoryTime + paramDistance + "&f=json",
                 type: "GET",
                 success: function(data, textStatus, jqXHR){
+                    if (!data) { return; }
                     var ct = jqXHR.getResponseHeader("content-type");
-                     if (ct.indexOf('json') > -1) {
-                            showinfo(data, e, true)
-                        } else {
-                            showinfo(JSON.parse(data),e, true)
-                        }
+                    if (ct.indexOf('json') > -1) {
+                        showinfo(data, e, true)
+                    } else {
+                        showinfo(JSON.parse(data),e, true)
+                    }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     console.log([textStatus, errorThrown])
@@ -69,7 +70,7 @@
 
         MAP.on('click', function(e) {
             infoDeskXY(e)
-        });
+        }, MAP);
 
 
     </script>
