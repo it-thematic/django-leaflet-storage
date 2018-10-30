@@ -36,11 +36,11 @@
 
              let params = e.latlng.lat + "," + e.latlng.lng;
              let visiblelayer = '';
-             let len_datalayer = e.sourceTarget.datalayers_index.length;
-             let datalayer= e.sourceTarget.datalayers_index;
+             let len_datalayer = MAP.datalayers_index.length;
+             let datalayer= MAP.datalayers_index;
 
              for (let i= 0 ; i < len_datalayer; i++ ){
-                  if (datalayer[i].isVisible() == true){
+                  if (datalayer[i].isVisible()){
                       visiblelayer = visiblelayer + datalayer[i].storage_id +',';
                   }
              }
@@ -66,7 +66,6 @@
                     var ct = jqXHR.getResponseHeader("content-type");
                     if (ct.indexOf('json') > -1) {
                         showinfo(data, e, true);
-                        {#getBuffer(data);#}
                     } else {
                         showinfo(JSON.parse(data),e, true);
                     }
