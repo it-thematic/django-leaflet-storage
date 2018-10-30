@@ -61,10 +61,11 @@
                     var ct = jqXHR.getResponseHeader("content-type");
                     if (ct.indexOf('json') > -1) {
                         showinfo(data, e, true);
-                        getBuffer(data);
+                        {#getBuffer(data);#}
                     } else {
                         showinfo(JSON.parse(data),e, true);
                     }
+                    setIsShowZone(data.id, data.properties.mgs_type);
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     console.log([textStatus, errorThrown])
@@ -73,7 +74,8 @@
         }
 
         MAP.on('click', function(e) {
-            infoDeskXY(e)
+            infoDeskXY(e);
+
         }, MAP);
 
         /*********************************************
