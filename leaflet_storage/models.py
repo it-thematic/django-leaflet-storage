@@ -7,6 +7,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 
 from django.contrib.gis.db import models
+from django.contrib.postgres.fields import JSONField
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
@@ -118,6 +119,19 @@ class CategoryMap(models.Model):
         return self.name
 
 
+def get_defautl_style():
+    return dict(
+        varsion=8,
+        name="",
+        center=[37.627487, 55.741028],
+        zoom=8,
+        sprite="http://localhost:8000/static/sprite/sprite",
+        glyphs="mapbox://fonts/mapbox/{fontstack}/{range}.pbf",
+        sources=dict(),
+        layers=list()
+    )
+
+
 class Map(NamedModel):
     """
     A single thematical map.
@@ -160,6 +174,7 @@ class Map(NamedModel):
     category = models.ForeignKey(CategoryMap, blank=True, null=True, verbose_name='категория  карты')
     objects = models.GeoManager()
     public = PublicManager()
+    style = JSONField(blank=False, null=False, default=get_defautl_style(), verbose_name=_("mapbox style"))
 
     def get_absolute_url(self):
         return reverse("map", kwargs={'slug': self.slug or "map", 'pk': self.pk})

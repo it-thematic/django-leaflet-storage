@@ -123,6 +123,7 @@ class MapDetailMixin(object):
             map_settings['properties'] = {}
         map_settings['properties'].update(properties)
         map_settings['properties']['datalayers'] = self.get_datalayers()
+        map_settings['properties']['style'] = self.get_style()
         context['map_settings'] = json.dumps(map_settings,
                                              indent=settings.DEBUG)
         return context
@@ -153,6 +154,9 @@ class MapDetailMixin(object):
 
     def get_short_url(self):
         return None
+
+    def get_style(self):
+        return dict()
 
 
 class MapView(MapDetailMixin, DetailView):
@@ -205,6 +209,9 @@ class MapView(MapDetailMixin, DetailView):
                                 args=(self.object.owner.get_username(), ))
             }
         return map_settings
+
+    def get_style(self):
+        return self.object.style
 
 
 class MapViewGeoJSON(MapView):
