@@ -20,65 +20,9 @@
         ********************************************/
         var BUFFER = new L.ITTBuffer(MAP);
 
-        function showinfo(jsondata, e, showPopup) {
-            {# show popup the information  object #}
-
-            if (!jsondata || !jsondata.geometry.coordinates) { return; }
-            if (showPopup && jsondata.properties.info && jsondata.properties.info!='-'){
-                  popup.setLatLng(e.latlng)
-                                .setContent(jsondata.properties.info)
-                                .openOn(MAP);
-            }
-        }
-
-        function infoDeskXY(e){
-             {# get inforamtion of object  by xy #}
-
-             let params = e.latlng.lat + "," + e.latlng.lng;
-             let visiblelayer = '';
-             let len_datalayer = MAP.datalayers_index.length;
-             let datalayer= MAP.datalayers_index;
-
-             for (let i= 0 ; i < len_datalayer; i++ ){
-                  if (datalayer[i].isVisible()){
-                      visiblelayer = visiblelayer + datalayer[i].storage_id +',';
-                  }
-             }
-             if (visiblelayer){
-                 params = params + "&layers=" + visiblelayer;
-             }
-
-             let historyParamTime = localStorage.getItem('history-time');
-             let paramHistoryTime = '';
-             if (historyParamTime) {
-                 paramHistoryTime = "&utctime=" + historyParamTime;
-             }
-             let  metres = scale._getRoundNum(MAP.containerPointToLatLng([0, MAP.getSize().y / 2 ])
-                                .distanceTo( MAP.containerPointToLatLng([scale.options.maxWidth / 8 ,MAP.getSize().y / 2 ])));
-             let paramDistance = "&distance="+metres;
-
-             $.ajax({
-                url: "/api/v2/map-services/info-desk/findByPoint/?latlng=" + params +paramHistoryTime + paramDistance + "&f=json",
-                type: "GET",
-                success: function(data, textStatus, jqXHR){
-                    if (!data) { return; }
-                    console.log(data);
-                    var ct = jqXHR.getResponseHeader("content-type");
-                    if (ct.indexOf('json') > -1) {
-                        showinfo(data, e, true);
-                    } else {
-                        showinfo(JSON.parse(data),e, true);
-                    }
-                    setIsShowZone(data.id, data.properties.mgs_type);
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.log([textStatus, errorThrown])
-                }
-            });
-        }
-
         MAP.on('click', function(e) {
-            infoDeskXY(e)
+            latlng = e.latlng;
+            infoDeskXY(e, latlng.lat, latlng.lng);
         }, MAP);
     </script>
 
